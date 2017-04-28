@@ -30,15 +30,15 @@ def bernoulli_nb(X_train, y_train, X_test, y_test):
         print('Score bnb(alpha='+str(a)+'): ' + str(score))
 
 def knn(X_train, y_train, X_test, y_test):
-    ns = [2, 3, 5, 10, 20]
-    p=[1, 2, 3] # default: 2
-    metric=['euclidean', 'manhattan', 'minkowski'] # default: 'minkowski'
+    ns = [2, 3, 5, 10, 20, 50, 100]
+    p=[1, 2, 3]
+    metric=['euclidean', 'manhattan', 'minkowski']
     for w in ['uniform', 'distance']:
         for p_value in p:
             for m in metric:
                 for n in ns:
                     start = time.time()
-                    clf = neighbors.KNeighborsClassifier(n, weights=w, n_jobs=4, p=p_value, metric=m)
+                    clf = neighbors.KNeighborsClassifier(n, weights=w, n_jobs=-1, p=p_value, metric=m)
                     clf.fit(X_train, y_train)
                     score = clf.score(X_test, y_test)
                     t = time.time() - start
@@ -58,11 +58,11 @@ def main():
     y_test = list(y)
 
     print '-> Gaussian Naive Bayes'
-    #gaussian_nb(X_train, y_train, X_test, y_test)
+    gaussian_nb(X_train, y_train, X_test, y_test)
     print '-> Multinomial Naive Bayes'
-    #multinomial_nb(X_train, y_train, X_test, y_test)
+    multinomial_nb(X_train, y_train, X_test, y_test)
     print '-> Bernoulli Naive Bayes'
-    #bernoulli_nb(X_train, y_train, X_test, y_test)
+    bernoulli_nb(X_train, y_train, X_test, y_test)
     print '-> KNN'
     knn(X_train, y_train, X_test, y_test)
 
